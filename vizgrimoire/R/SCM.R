@@ -38,6 +38,7 @@ GetSCMEvolutionaryData <- function(period, startdate, enddate, i_db=NA, type_ana
     # 1- Retrieving information
     commits <- EvolCommits(period, startdate, enddate, i_db, type_analysis)
     authors <- EvolAuthors(period, startdate, enddate, i_db, type_analysis)
+    orgs <- EvolOrgs(period, startdate, enddate, i_db, type_analysis)
     committers <- EvolCommitters(period, startdate, enddate, i_db, type_analysis)
     files <- EvolFiles(period, startdate, enddate, i_db, type_analysis)
     lines <- EvolLines(period, startdate, enddate, i_db, type_analysis)
@@ -46,7 +47,6 @@ GetSCMEvolutionaryData <- function(period, startdate, enddate, i_db=NA, type_ana
 
     # 2- Merging information
     evol_data = merge(commits, repositories, all = TRUE)
-    
     # This workaround fixes the bug when committers or
     # authors are empty data frames. Merging an empty
     # with a non-empty frame returned a new data frame
@@ -60,7 +60,6 @@ GetSCMEvolutionaryData <- function(period, startdate, enddate, i_db=NA, type_ana
     evol_data = merge(evol_data, files, all = TRUE)
     evol_data = merge(evol_data, lines, all = TRUE)
     evol_data = merge(evol_data, branches, all = TRUE)
-
     return (evol_data)
 }
 
@@ -303,9 +302,48 @@ GetAuthors <- function(period, startdate, enddate, identities_db, type_analysis,
     return(ExecuteQuery(q))
 }
 
+GetOrgs <- function(period, startdate, enddate, identities_db, type_analysis, evolutionary){
+    # This function contains basic parts of the query to count orgs
+    # That query is later built and executed
+
+    # fooooooooo
+    # edit this so we can join upeople and sort by org from people table
+    fields <- " count(distinct(pup.upeople_id)) AS authors "
+    tables <- " scmlog s " 
+    filters = GetSQLReportWhere(type_analysis, "org")
+    print('DEBUG: inside get orgs')
+    print(filters)
+    #specific parts of the query depending on the report needed
+    tables <- paste(tables, GetSQLReportFrom(identities_db, type_analysis))
+
+    if (is.na(type_analysis[1])) {
+        #Specific case for the basic option where people_upeople table is needed
+        #and not taken into account in the initial part of the query
+        tables <- paste(tables, ",  ",identities_db,".people_upeople pup", sep="")
+        filters <- paste(filters, " and s.author_id = pup.people_id", sep="")
+    }
+
+    if (type_analysis[1] == "repository"){
+        #Adding people_upeople table
+        tables <- paste(tables, ",  ",identities_db,".people_upeople pup", sep="")
+        filters <- paste(filters, " and s.author_id = pup.people_id ", sep="")
+    }
+
+    q <- BuildQuery(period, startdate, enddate, " s.date ", fields, tables, filters, evolutionary)
+    print('DEBUG: what is the query for get orgs at the moment?')
+    print(q)
+    return(ExecuteQuery(q))
+}
+
 EvolAuthors <- function(period, startdate, enddate, identities_db=NA, type_analysis = list(NA, NA)){
     # returns the evolution of authors through the time
     return (GetAuthors(period, startdate, enddate, identities_db, type_analysis, TRUE))
+}
+
+EvolOrgs <- function(period, startdate, enddate, identities_db=NA, type_analysis = list(NA, NA)){
+    print ('DEBUG: lets evolve the orgs')
+    # returns the evolution of orgs that are involved through the time
+    return (GetOrgs(period, startdate, enddate, identities_db, type_analysis, TRUE))
 }
 
 StaticNumAuthors <- function(period, startdate, enddate, identities_db=NA, type_analysis = list(NA, NA)){
@@ -355,7 +393,6 @@ GetCommitters <- function(period, startdate, enddate, identities_db, type_analys
     }
 
     q <- BuildQuery(period, startdate, enddate, " s.date ", fields, tables, filters, evolutionary)
-
     return(ExecuteQuery(q))
 }
 
@@ -904,6 +941,24 @@ GetPeopleListSCM <- function(startdate, enddate) {
 }
 
 GetPeopleQuerySCM <- function(developer_id, period, startdate, enddate, evol) {
+    fields ='COUNT(s.id) AS commits'
+    tables = GetTablesOwnUniqueIdsSCM()
+    filters = GetFiltersOwnUniqueIdsSCM()
+    filters = paste(filters,"AND pup.upeople_id=",developer_id)
+    if (evol) {
+        q = GetSQLPeriod(period,'s.date', fields, tables, filters, 
+                startdate, enddate)
+    } else {
+        fields = paste(fields,
+                ",DATE_FORMAT (min(s.date),'%Y-%m-%d') as first_date,
+                  DATE_FORMAT (max(s.date),'%Y-%m-%d') as last_date")        
+        q = GetSQLGlobal('s.date', fields, tables, filters, 
+                startdate, enddate)
+    }
+    return (q)            
+}
+
+GetOrgQuerySCM <- function(org_id, period, startdate, enddate, evol) {
     fields ='COUNT(s.id) AS commits'
     tables = GetTablesOwnUniqueIdsSCM()
     filters = GetFiltersOwnUniqueIdsSCM()

@@ -286,6 +286,7 @@ def run_analysis (scripts, base_dbs, id_dbs, outdir):
             raise
     # Run the analysis scripts
     os.environ["R_LIBS"] = rConf["libdir"] + ":" + os.environ.get("R_LIBS", "")
+    
     for script, base_db, id_db in zip (scripts, base_dbs, id_dbs):
         call_list = [script, "-d", base_db,
                      "-u", args.user, "-p", args.passwd,
@@ -337,7 +338,7 @@ def produce_dashboard (vizgrimoirejs_dir, example_dir,
     """
 
     # Files from vizGrimoireJS to copy:
-    vgjsFiles = ["browser/lib/vizgrimoire.min.js",
+    vgjsFiles = ["browser/lib/vizgrimoire.js",
                  "browser/lib/jquery-1.11.1.min.js",
                  "browser/lib/bootstrap-3.1.1.min.js",
                  "browser/css/vizgrimoire.css",
@@ -435,6 +436,8 @@ misc/metricsgrimoire-setup.py""")
     # JSON directory for browser
     JSONdir = dashboard_dir + "/data/json"
 
+    print('DEBUG: dir is')
+    print(dir)
     # Configure R paths
     rConf = {"libdir": dir + "/rlib",
              "vgrpkg": args.vgdir + "/VizGrimoireR/vizgrimoire",
@@ -458,7 +461,7 @@ misc/metricsgrimoire-setup.py""")
             repos = find_repos (args.name)
         else:
             repos = [args.name]
-        run_mgtools (["cvsanaly", "bicho"], repos, dbPrefix)
+        run_mgtools (["cvsanaly", ], repos, dbPrefix)
 
     # Run unique_ids and affiliation (people stuff)
     # except that --nopeople was specified
