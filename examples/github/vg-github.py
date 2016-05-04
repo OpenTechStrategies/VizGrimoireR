@@ -122,6 +122,9 @@ def run_mgtool (tool, project, dbname):
     if args.passwd:
         opts.extend ([conf[tool]["dbpasswd"], args.passwd])
     opts.extend ([conf[tool]["db"], dbname])
+    if args.verbose:
+        print("DB, eh?")
+        print(dbname)
     # Specific code for runnint cvsanaly
     if tool == "cvsanaly":
         gitdir = project.split('/', 1)[1]
@@ -133,16 +136,22 @@ def run_mgtool (tool, project, dbname):
              opts.append ("--quiet")
     # Specific code for running bicho
     if tool == "bicho":
-        opts.extend (["--url",
-                     "https://api.github.com/repos/" + project + "/issues",
-                      "--backend-user", args.ghuser,
-                      "--backend-password", args.ghpasswd])
+        if args.verbose:
+            print("Tool is bicho btw")
+        if args.ghuser and args.ghpasswd:
+            opts.extend (["--url",
+                          "https://api.github.com/repos/" + project + "/issues",
+                          "--backend-user", args.ghuser,
+                          "--backend-password", args.ghpasswd])
     print "Running MetricsGrimoire tool (" + tool + ")" 
     if args.verbose:
+        print("DEBUG: These are the options")
         print " ".join(opts)
     # Run the tool
-    call(opts)
-
+    if tool != "bicho":
+        call(opts)
+    else:
+        return
 def run_mgtools (tools, projects, dbprefix):
     """Run MetricsGrimoire tools
 
@@ -277,6 +286,9 @@ def run_analysis (scripts, base_dbs, id_dbs, outdir):
     """
 
     # Create the JSON data directory for the scripts to write to
+    if args.verbose:
+        print("DEBUG: running analysis")
+        
     try:
         os.makedirs(outdir)
     except OSError as e:
@@ -286,7 +298,9 @@ def run_analysis (scripts, base_dbs, id_dbs, outdir):
             raise
     # Run the analysis scripts
     os.environ["R_LIBS"] = rConf["libdir"] + ":" + os.environ.get("R_LIBS", "")
-    
+    if args.verbose:
+        print("DEBUG: the outdir is")
+        print(outdir)
     for script, base_db, id_db in zip (scripts, base_dbs, id_dbs):
         call_list = [script, "-d", base_db,
                      "-u", args.user, "-p", args.passwd,
@@ -294,6 +308,7 @@ def run_analysis (scripts, base_dbs, id_dbs, outdir):
                      "--granularity", "weeks",
                      "--destination", outdir]
         if args.verbose:
+            print("DEBUG: this is the call list")
             print " ".join (call_list)
         call (call_list)
 
@@ -312,8 +327,8 @@ def produce_config (config_template, config_file):
                   end_date = "2013-12-31",
                   project_name = args.name,
                   project_url = "http://github.com/" + args.name,
-                  scm_url = "",
-                  its_url = "")
+                  scm_url = "http://github.com/" + args.name,
+                  its_url = "http://github.com/" + args.name + "/issues")
     template_str = ""
     with open (config_template, "r") as template:
         template_str = template.read()
@@ -336,7 +351,10 @@ def produce_dashboard (vizgrimoirejs_dir, example_dir,
     analysis scripts.
 
     """
-
+    if args.verbose:
+        print("DEBUG: producing dashboard with dashboard dir")
+        print(dashboard_dir)
+    
     # Files from vizGrimoireJS to copy:
     vgjsFiles = ["browser/lib/vizgrimoire.js",
                  "browser/lib/jquery-1.11.1.min.js",
