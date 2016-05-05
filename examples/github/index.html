@@ -168,14 +168,260 @@
 		<div class="well">
 		  <div class="MetricsEvol" data-data-source="scm"
 		       data-metrics="scm_authors"
-                       data-min="true" style="height:480px;"></div>
+                       data-min="true" style="height:120px;"></div>
 		  <a href="scm.html" style="color:black;">
 		    <span class="MicrodashText" data-metric="scm_authors"></span>
 		  </a>
 		</div>
 		<!-- end of authors evol box -->
+	    
+		<!-- files evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="scm" data-metrics="scm_files"
+                       data-min="true" style="height:120px;"></div>
+		  <a href="scm.html" style="color:black;">
+                    <span class="MicrodashText" data-metric="scm_files"></span>
+		  </a>
+		</div>
+		<!-- end of files evol box -->
 
-                <div class="row-fluid" style="margin-top:10px;">
+
+		<!-- lines evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="scm"
+		       data-metrics="scm_added_lines,scm_removed_lines" data-min="true"
+		       data-legend="true" style="height: 120px;"></div>
+		  <div class="MicrodashText" data-metric="scm_added_lines"></div>
+		  <div class="MicrodashText" data-metric="scm_removed_lines"></div>
+		</div>
+		<!-- end of lines evol box -->
+	      </div>
+
+              <div class="span4">
+
+		<!-- repositories evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="scm"
+		       data-metrics="scm_repositories"
+                       data-min="true" style="height:90px;"></div>
+		  <a href="scm.html" style="color:black;">
+		    <span class="MicrodashText" data-metric="scm_repositories"></span>
+		  </a>
+		</div>
+		<!-- end of repositories evol box -->
+		
+	    
+		<!-- domains evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="scm"
+		       data-metrics="scm_domains"
+                       data-min="true" style="height:90px;"></div>
+		  <a href="scm.html" style="color:black;">
+		    <span class="MicrodashText" data-metric="scm_domains"></span>
+		  </a>
+		</div>
+		<!-- end of domains evol box -->
+	    
+		<!-- top authors -->
+		<div class="Top" data-data-source="scm"
+		     data-metric="authors" data-limit="10" data-people_links="true">
+		</div>
+		<!-- end top authors -->
+	      </div>
+	    </div>
+
+	  </div>
+	</div>
+        <!-- end scm -->
+
+        <!-- its -->
+	<div class="row-fluid">
+          <table class="table table-striped">
+            <tr>
+	      <td><strong>Issues activity</strong> (updated on
+		<span class="GlobalData" data-data-source="its"
+		      data-field="last_date"></span>)</td>
+            </tr>
+          </table>
+        </div>
+
+	<div class="row-fluid">
+          <div class="span2">
+
+            <!-- its summary box -->
+            <div class="wellmin">
+	      <div class="row-fluid thin-border">
+                <div class="span12">Contributors</div>
+	      </div>
+	      <div class="row-fluid grey-border">
+                <div class="span12 big-fp-number">
+                  <a href="its.html">
+                    <span class="GlobalData" data-data-source="its" data-field="allhistory_participants"></span>
+                  </a>
+                </div>
+	      </div>
+	      <div class="row-fluid" style="padding:5px 0px 0px 0px;">
+                <div class="span6">
+                  <div class="row-fluid thin-border">
+                    <div class="span12">Fixers</div>
+                  </div>
+                  <div class="row-fluid">
+                    <div class="span12 medium-fp-number">
+		      <a href="its.html">
+                        <span class="GlobalData" data-data-source="its" data-field="its_closers"></span>
+		      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="span6"> 
+                  <div class="row-fluid thin-border">
+                    <div class="span12">Reporters</div>
+                  </div>
+                  <div class="row-fluid">
+                    <div class="span12 medium-fp-number">
+		      <a href="its.html">
+                        <span class="GlobalData" data-data-source="its" data-field="its_openers"></span>
+		      </a>
+                    </div>
+                  </div>
+                </div>
+	      </div>
+
+	      <!-- its details box -->
+	      <table class="table table-striped">
+		<tr>
+                  <td><span class="GlobalData" data-data-source="its"
+			    data-field="trackers"></span></td>
+                  <td>repositories</td>
+		</tr>
+		<tr>
+                  <td><span class="GlobalData" data-data-source="its"
+			    data-field="its_opened_7"></span></td>
+                  <td>opened last week</td>
+		</tr>
+		<tr>
+                  <td><span class="GlobalData" data-data-source="its"
+			    data-field="its_closed_7"></span></td>
+                  <td>closed last week</td>
+		</tr>
+		<tr>
+                  <td><span class="GlobalData" data-data-source="its"
+			    data-field="its_closers_7"></span></td>
+                  <td>closers last week</td>
+		</tr>
+	      </table>
+	      <!-- end of its details box -->
+            </div>
+            <!-- end its summary box -->
+	  </div>
+
+          <div class="span10">
+
+	    <div class="row-fluid">
+              <div class="span8">
+
+		<!-- opened tickets evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="its"
+		       data-metrics="its_opened,its_closed"
+		       data-min="true" style="height:960px;"></div>
+		  <a href="its.html" style="color:black;">
+                    <span class="MicrodashText" data-metric="its_opened"></span>
+                    <span class="MicrodashText" data-metric="its_closed"></span>
+		  </a>
+		</div>
+	      	<!-- end of opened tickets evol box -->
+
+		<!-- openers of tickets evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="its" data-metrics="its_openers"
+		       data-min="true" style="height:120px;"></div>
+		  <a href="its.html" style="color:black;">
+                    <span class="MicrodashText" data-metric="its_openers"></span>
+		  </a>
+		</div>
+		<!-- end of openers of tickets evol box -->
+		
+		<!-- closers of tickets evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="its" data-metrics="its_closers"
+		       data-min="true" style="height:120px;"></div>
+		  <a href="its.html" style="color:black;">
+                    <span class="MicrodashText" data-metric="its_closers"></span>
+		  </a>
+		</div>
+		<!-- end of closers of tickets evol box -->
+
+		<!-- changed tickets evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="its" data-metrics="its_changed"
+		       data-min="true" style="height:120px;"></div>
+		  <a href="its.html" style="color:black;">
+                    <span class="MicrodashText" data-metric="its_changed"></span>
+		  </a>
+		</div>
+		<!-- end of changed tickets evol box -->
+
+		<!-- changers of tickets evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="its" data-metrics="its_changers"
+		       data-min="true" style="height:120px;"></div>
+		  <a href="its.html" style="color:black;">
+                    <span class="MicrodashText" data-metric="its_changers"></span>
+		  </a>
+		</div>
+		<!-- end of changers of tickets evol box -->
+
+		<!-- time to fix box -->
+		<div class="well">
+		  <strong>Time to fix in hours</strong> (quantiles)
+		  <div class="TimeTo" data-data-source="its" data-type="fix" style="height:960px"
+		       data-quantil="X0.99,X0.95,X0.5,X0.25"></div>
+		</div>
+		<!-- time to fix box -->
+
+		<!-- time to attention box -->
+<!-- FIXME: JSON not yet read?
+		<div class="well">
+		  <strong>Time to attention in hours</strong> (quantiles)
+		  <div class="TimeTo" data-data-source="its" data-type="attention"
+		       data-quantil="X0.99,X0.95,X0.5,X0.25"></div>
+		</div>
+-->
+		<!-- time to attention box -->
+
+	      </div>
+	      
+              <div class="span4">
+			
+		<!-- top closers box -->
+		<div class="Top" data-data-source="its" data-graph1="bars"
+		     data-metric="closers" data-limit="10" data-people_links="true"></div>
+		<!-- end closers box -->
+
+		<!-- top closers last month box -->
+		<div class="Top" data-data-source="its" data-graph1="bars"
+		     data-metric="closers" data-period="last month"
+		     data-limit="10" data-people_links="true"></div>
+		<!-- end closers box -->
+
+		<!-- top closers last week box -->
+		<div class="Top" data-data-source="its" data-graph1="bars"
+		     data-metric="closers" data-period="last week"
+		     data-limit="10" data-people_links="true"></div>
+		<!-- end closers box -->
+		
+	      </div>
+	    </div>
+
+	  </div>
+	</div>        
+	<!-- end its -->
+	
+      </div>
+      <!-- end scm, its, mls -->
+      
+      <div class="row-fluid" style="margin-top:10px;">
         <div class="span12">
           <div id="Refcard"></div>
         </div>
@@ -188,6 +434,6 @@
     
     <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="bootstrap-3.1.1.min.js"></script>
-    <script type="text/javascript" src="vizgrimoire.js"></script> 
+    <script type="text/javascript" src="vizgrimoire.js"></script>                    
   </body>
 </html>
