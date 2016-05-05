@@ -320,7 +320,7 @@
 	    <div class="row-fluid">
               <div class="span8">
 
-		<!-- opened tickets evol box -->
+		<!-- opened v closed tickets evol box -->
 		<div class="well">
 		  <div class="MetricsEvol" data-data-source="its"
 		       data-metrics="its_opened,its_closed"
@@ -330,7 +330,29 @@
                     <span class="MicrodashText" data-metric="its_closed"></span>
 		  </a>
 		</div>
+	      	<!-- end of opened v closed tickets evol box -->
+		<!-- opened tickets evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="its"
+		       data-metrics="its_opened"
+		       data-min="true" style="height:960px;"></div>
+		  <a href="its.html" style="color:black;">
+                    <span class="MicrodashText" data-metric="its_opened"></span>
+                    <span class="MicrodashText" data-metric="its_closed"></span>
+		  </a>
+		</div>
 	      	<!-- end of opened tickets evol box -->
+		<!-- closed tickets evol box -->
+		<div class="well">
+		  <div class="MetricsEvol" data-data-source="its"
+		       data-metrics="its_closed"
+		       data-min="true" style="height:960px;"></div>
+		  <a href="its.html" style="color:black;">
+                    <span class="MicrodashText" data-metric="its_opened"></span>
+                    <span class="MicrodashText" data-metric="its_closed"></span>
+		  </a>
+		</div>
+	      	<!-- end of closed tickets evol box -->
 
 		<!-- openers of tickets evol box -->
 		<div class="well">
